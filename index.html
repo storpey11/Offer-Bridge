@@ -1,0 +1,200 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>OfferBridge | Curated picks that save time.</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Curated affiliate deals and Amazon picks. Fast links.">
+  <meta property="og:title" content="OfferBridge">
+  <meta property="og:description" content="Curated picks that save time.">
+  <meta property="og:type" content="website">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg:#0b0f17; --bg2:#0e1424; --card:#0f172a; --line:#1f2a44; --text:#e6f0ff; --muted:#9fb2d4;
+      --btn:#4ade80; --btn2:#22c55e; --tag:#1e293b;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial;background:radial-gradient(1100px 700px at 80% -10%,#22304a00,#0b0f17 60%),var(--bg);color:var(--text)}
+    a{text-decoration:none;color:inherit}
+    .wrap{max-width:760px;margin:0 auto;padding:22px}
+    header{display:grid;place-items:center;text-align:center;padding:18px 0 8px}
+    .avatar{width:88px;height:88px;border-radius:50%;background:linear-gradient(135deg,#304b73,#1d2a40);display:grid;place-items:center;
+      font-weight:800;font-size:28px;border:2px solid #2a3b5d;box-shadow:0 10px 40px rgba(0,0,0,.35)}
+    h1{font-size:28px;margin:12px 0 6px}
+    .tagline{color:var(--muted);font-size:14px;min-height:18px}
+    .bar{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-top:12px}
+    .chip{padding:6px 10px;background:#0b1324;border:1px solid var(--line);border-radius:999px;color:#c8d5ee;font-size:12px}
+    .search{margin:16px 0 12px;display:flex;gap:8px}
+    input[type="search"]{flex:1;padding:12px 14px;border-radius:12px;border:1px solid var(--line);background:var(--bg2);color:var(--text);outline:none}
+    .toggle{padding:12px 14px;border-radius:12px;border:1px solid var(--line);background:var(--bg2);color:#cbd5e1;cursor:pointer}
+    .featured{margin:12px 0;display:grid;gap:10px}
+    .card{background:linear-gradient(180deg,var(--card),#0b1220 80%);border:1px solid var(--line);border-radius:14px;padding:14px;display:flex;gap:12px;align-items:center}
+    .logo{width:48px;height:48px;border-radius:12px;background:linear-gradient(135deg,#1f2a44,#213656);display:grid;place-items:center;font-weight:800}
+    .info{flex:1;min-width:0}
+    .title{font-weight:800;font-size:16px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .sub{font-size:12px;color:var(--muted);margin-top:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .tags{display:flex;gap:6px;flex-wrap:wrap;margin-top:6px}
+    .tag{font-size:11px;color:#c8d5ee;background:var(--tag);border:1px solid var(--line);border-radius:999px;padding:4px 8px}
+    .cta{display:flex;gap:8px;align-items:center}
+    .btn{padding:12px 14px;border-radius:12px;font-weight:800;display:inline-flex;align-items:center;gap:8px;cursor:pointer;border:0;background:linear-gradient(90deg,var(--btn),var(--btn2));color:#062c16}
+    .ghost{padding:12px 14px;border-radius:12px;border:1px solid var(--line);background:var(--bg2);color:#cbd5e1;cursor:pointer}
+    .grid{display:grid;gap:10px}
+    .section-title{margin:18px 0 6px;font-weight:800;color:#d9e4ff}
+    footer{margin:20px 0 8px;color:#9fb2d4;font-size:12px;text-align:center}
+    .notice{font-size:12px;color:#9fb2d4;margin-top:10px;text-align:center}
+    .sr{position:absolute;left:-10000px;top:auto;width:1px;height:1px;overflow:hidden}
+    @media(min-width:720px){
+      .grid{grid-template-columns:1fr}
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div class="avatar" id="avatar">OB</div>
+      <h1 id="brand">OfferBridge</h1>
+      <div class="tagline" id="tagline">Curated picks that save time.</div>
+      <div class="bar">
+        <span class="chip">Fast checkout</span>
+        <span class="chip">Trusted vendors</span>
+        <span class="chip">Mobile first</span>
+      </div>
+      <div class="search">
+        <input id="q" type="search" placeholder="Search products or tags">
+        <button id="clear" class="toggle" title="Clear">Clear</button>
+      </div>
+    </header>
+
+    <section>
+      <div class="section-title">Featured</div>
+      <div id="featured" class="featured"></div>
+    </section>
+
+    <section>
+      <div class="section-title">All offers</div>
+      <div id="list" class="grid"></div>
+    </section>
+
+    <div class="notice">
+      As an Amazon Associate, I earn from qualifying purchases. Affiliate disclosure. I receive a commission from purchases.
+    </div>
+
+    <footer>
+      © <span id="y"></span> <span id="brandFoot">OfferBridge</span>. All rights reserved.
+    </footer>
+  </div>
+
+  <script>
+    const featuredEl = document.getElementById("featured");
+    const listEl = document.getElementById("list");
+    const q = document.getElementById("q");
+    const clearBtn = document.getElementById("clear");
+    document.getElementById("y").textContent = new Date().getFullYear();
+
+    function createCard(item){
+      const a = document.createElement("a");
+      a.href = item.url;
+      a.target = "_blank";
+      a.rel = "nofollow sponsored noopener";
+      a.className = "card";
+      a.dataset.tags = (item.tags || []).join(" ").toLowerCase();
+
+      const logo = document.createElement("div");
+      logo.className = "logo";
+      logo.textContent = item.title.split(" ").slice(0,2).map(w=>w[0]).join("").slice(0,3).toUpperCase();
+
+      const info = document.createElement("div");
+      info.className = "info";
+
+      const title = document.createElement("div");
+      title.className = "title";
+      title.textContent = item.title;
+
+      const sub = document.createElement("div");
+      sub.className = "sub";
+      const bits = [];
+      if(item.label) bits.push(item.label);
+      if(item.price) bits.push(item.price);
+      sub.textContent = bits.join(" · ");
+
+      const tags = document.createElement("div");
+      tags.className = "tags";
+      (item.tags || []).slice(0,4).forEach(t=>{
+        const span = document.createElement("span");
+        span.className = "tag";
+        span.textContent = t;
+        tags.appendChild(span);
+      });
+
+      const cta = document.createElement("div");
+      cta.className = "cta";
+      const btn = document.createElement("span");
+      btn.className = "btn";
+      btn.innerHTML = '<span class="sr">Open</span>View offer';
+      const copy = document.createElement("button");
+      copy.type = "button";
+      copy.className = "ghost";
+      copy.textContent = "Copy link";
+      copy.addEventListener("click", (e)=>{
+        e.preventDefault();
+        navigator.clipboard.writeText(item.url).then(()=>{
+          copy.textContent = "Copied";
+          setTimeout(()=>copy.textContent="Copy link", 1200);
+        });
+      });
+
+      info.appendChild(title);
+      info.appendChild(sub);
+      info.appendChild(tags);
+      cta.appendChild(btn);
+      cta.appendChild(copy);
+
+      a.appendChild(logo);
+      a.appendChild(info);
+      a.appendChild(cta);
+      return a;
+    }
+
+    function render(data){
+      const items = data.offers || [];
+      document.getElementById("brand").textContent = data.brandName || "OfferBridge";
+      document.getElementById("brandFoot").textContent = data.brandName || "OfferBridge";
+      document.getElementById("avatar").textContent = (data.brandInitials || "OB").toUpperCase();
+      if(data.tagline){ document.getElementById("tagline").textContent = data.tagline; }
+
+      featuredEl.innerHTML = "";
+      listEl.innerHTML = "";
+      const f = items.filter(i=>i.featured);
+      const rest = items.filter(i=>!i.featured);
+      f.forEach(i=>featuredEl.appendChild(createCard(i)));
+      rest.forEach(i=>listEl.appendChild(createCard(i)));
+    }
+
+    function filter(){
+      const term = q.value.trim().toLowerCase();
+      const cards = [...document.querySelectorAll(".card")];
+      cards.forEach(c=>{
+        const hay = (c.querySelector(".title").textContent + " " + c.dataset.tags).toLowerCase();
+        c.style.display = hay.includes(term) ? "flex" : "none";
+      });
+    }
+
+    q.addEventListener("input", filter);
+    clearBtn.addEventListener("click", ()=>{ q.value = ""; filter(); });
+
+    async function load(){
+      try{
+        const res = await fetch("/offers.json", {cache:"no-store"});
+        const data = await res.json();
+        render(data);
+      }catch(e){
+        render({brandName:"OfferBridge", brandInitials:"OB", tagline:"Curated picks that save time.", offers:[]});
+      }
+    }
+    load();
+  </script>
+</body>
+</html>

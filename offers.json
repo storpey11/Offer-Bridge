@@ -1,0 +1,51 @@
+{
+  "brandName": "OfferBridge",
+  "brandInitials": "OB",
+  "tagline": "Curated picks that save time.",
+  "offers": [
+    {
+      "title": "Work From Home With AI",
+      "url": "https://1d5785-18qcsbk38pgsdqhyud9.hop.clickbank.net",
+      "label": "Online training",
+      "tags": [
+        "ai",
+        "work from home",
+        "courses"
+      ],
+      "featured": true
+    },
+    {
+      "title": "Amazon: Wireless Earbuds",
+      "url": "https://www.amazon.com/dp/B0EXAMPLE?tag=YOUR_TAG-20",
+      "label": "Amazon",
+      "price": "$39",
+      "tags": [
+        "tech",
+        "audio",
+        "gadgets"
+      ]
+    },
+    {
+      "title": "Amazon: Standing Desk",
+      "url": "https://www.amazon.com/dp/B0DESK1234?tag=YOUR_TAG-20",
+      "label": "Amazon",
+      "price": "$129",
+      "tags": [
+        "office",
+        "health",
+        "furniture"
+      ]
+    },
+    {
+      "title": "Amazon: Ring Light",
+      "url": "https://www.amazon.com/dp/B0LIGHT999?tag=YOUR_TAG-20",
+      "label": "Amazon",
+      "price": "$24",
+      "tags": [
+        "creator",
+        "lighting",
+        "video"
+      ]
+    }
+  ]
+}
